@@ -7,19 +7,14 @@ if( navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/iPod/i) ||
     navigator.userAgent.match(/iPad/i) ||
     navigator.userAgent.match(/BlackBerry/)
-){
+) {
   isMobile = true;
 }
 
 $(document).ready(function() {
-
   // Global vars
   var $artHeaderInner = $('.art-header-inner');
-  var $artHeader = $('.art-header');
   var $artTitle = $('.art-title');
-  var $artSubtitle = $('.art-subtitle');
-  var $artTime = $('.art-time');
-  var artTitleFontSize = parseInt($artTitle.css('font-size'));
   var $nav = $('.nav');
   var windowScroll;
 
@@ -28,11 +23,7 @@ $(document).ready(function() {
 
   // Identify if visitor has a large enough viewport for parallaxing title
   function isLargeViewport() {
-    if($nav.css('position') == "relative") {
-      return false;
-    } else {
-      return true;
-    }
+    return ($nav.css('position') !== "relative");
   }
 
   // If large viewport and not mobile, parallax the title
@@ -62,88 +53,88 @@ $(document).ready(function() {
       'opacity' : 1-(windowScroll/550)
     });
 
-    //Slowly parallax the background of .art-header
-    // $artHeader.css({
-    //   'background-position' : 'center ' + (-windowScroll/8)+"px"
-    // });
-
     //Fade the .nav out
     $nav.css({
       'opacity' : 1-(windowScroll/400)
     });
   }
 
-	// Link to top of page without changing URL
-	$('.back-to-top a').click(function(e) {
-		e.preventDefault();
-		$(window).scrollTop(0);
-	})
+  // Link to top of page without changing URL
+  $('.back-to-top a').click(function(e) {
+    e.preventDefault();
+    $(window).scrollTop(0);
+  });
 
-	// Cover image of the header
-	var $postImage = $('img[alt="cover"]');
-	if ( $postImage.length ) {
-		var postImageURL = $postImage.attr('src');
-		$('.art-header').css('background-image','url(' + postImageURL + ')');
-		$('.art-header').css('background-size','100%');
+  // Cover image of the header
+  var $postImage = $('img[alt="cover"]');
+  if ( $postImage.length ) {
+    var postImageURL = $postImage.attr('src');
+    $('.art-header').css('background-image','url(' + postImageURL + ')');
+    $('.art-header').css('background-size','100%');
 
-		// Change color scheme to white
-		$('#logo h1').css('color','white');
-		$('.art-title').css('color','white');
-		$('.art-subtitle').css('color','white');
-		$('.art-time').css('color','white');
-		$('.nav-primary li a').css('color','white');
+    // Change color scheme to white
+    $('#logo h1').css('color','white');
+    $('.art-title').css('color','white');
+    $('.art-subtitle').css('color','white');
+    $('.art-time').css('color','white');
+    $('.nav-primary li a').css('color','white');
 
-		// Add Text Shadows
-		$('#logo h1').css('text-shadow', '0px 0px 30px black');
-		$('.art-title').css('text-shadow', '0px 0px 30px black');
-		$('.art-subtitle').css('text-shadow', '0px 0px 30px black');
-		$('.art-time').css('text-shadow','0px 0px 30px black');
-		$('.nav-primary li a').css('text-shadow','0px 0px 30px black');
+    // Add Text Shadows
+    $('#logo h1').css('text-shadow', '0px 0px 30px black');
+    $('.art-title').css('text-shadow', '0px 0px 30px black');
+    $('.art-subtitle').css('text-shadow', '0px 0px 30px black');
+    $('.art-time').css('text-shadow','0px 0px 30px black');
+    $('.nav-primary li a').css('text-shadow','0px 0px 30px black');
 
-		// Remove border under logo
-		$('.nav').css('border-bottom', 'none')
+    // Remove border under logo
+    $('.nav').css('border-bottom', 'none');
 
-	}
-	$postImage.remove();
+  }
 
-	// Subtitles
-	var $subtitle = $('span[id="subtitle"]');
-	if ( $subtitle.length ) {
-		var subtitleText = $('#subtitle').text();
-		$('.art-subtitle').html(subtitleText);
+  $postImage.remove();
 
-	}
-	$subtitle.remove();
+  // Subtitles
+  var $subtitle = $('span[id="subtitle"]');
 
-	// Make punctuation smarter
-	jQuery.fn.smarten = (function() {
+  if ( $subtitle.length ) {
+    var subtitleText = $('#subtitle').text();
+    $('.art-subtitle').html(subtitleText);
 
-	  function smartenNode(node) {
-		if (node.nodeType === 3) {
-		  node.data = node.data
-			.replace(/(^|[-\u2014/(\[{"\s])'/g, "$1\u2018")      // Opening singles
-			.replace(/'/g, "\u2019")                             // Closing singles & apostrophes
-			.replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1\u201c") // Opening doubles
-			.replace(/"/g, "\u201d")                             // Closing doubles
-			.replace(/--/g, "\u2013")                            // En dashes
-			.replace(/---/g, "\u2014")                           // Em dashes
-			.replace(/\.{3}/g, "\u2026");                        // Ellipsis
-		} else if (node.nodeType === 1) {
-		  if (node = node.firstChild) do {
-			smartenNode(node);
-		  } while (node = node.nextSibling);
-		}
-	  }
+  }
 
-	  return function() {
-		return this.each(function(){
-		  smartenNode(this);
-		});
-	  };
+  $subtitle.remove();
 
-	}());
+  // Make punctuation smarter
+  jQuery.fn.smarten = (function() {
+    function smartenNode(node) {
+      if (node.nodeType === 3) {
+        node.data = node.data
+        .replace(/(^|[-\u2014/(\[{"\s])'/g, "$1\u2018")      // Opening singles
+        .replace(/'/g, "\u2019")                             // Closing singles & apostrophes
+        .replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1\u201c") // Opening doubles
+        .replace(/"/g, "\u201d")                             // Closing doubles
+        .replace(/--/g, "\u2013")                            // En dashes
+        .replace(/---/g, "\u2014")                           // Em dashes
+        .replace(/\.{3}/g, "\u2026");                        // Ellipsis
+      } else if (node.nodeType === 1) {
+        node = node.firstChild;
 
-	// Instantiation
-	$('article').smarten();
+        if (node) {
+          do {
+            smartenNode(node);
+            node = node.nextSibling;
+          } while (node);
+        }
+      }
+    }
 
+    return function() {
+      return this.each(function(){
+        smartenNode(this);
+      });
+    };
+  }());
+
+  // Instantiation
+  $('article').smarten();
 });
