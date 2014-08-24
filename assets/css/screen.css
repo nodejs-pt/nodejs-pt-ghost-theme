@@ -191,12 +191,13 @@ a:hover {
 }
 
 #logo h1 span{
-  color: #F40034 !important;
+  color: #414338 !important;
 }
 
 .nav li:first-child {
   margin-left: 0; /* Remove left margin from the first nav li */
 }
+
 
 /* Home Page
 ================================================== */
